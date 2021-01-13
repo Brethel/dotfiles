@@ -19,11 +19,11 @@ let g:mapleader = "\<SPACE>"
 " Plugins {{{
 "
 
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+let vimplug_exists=expand('~/.local/nvim/autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug...\n"
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl -fLo ~/.local/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
@@ -32,7 +32,7 @@ endif
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/nvim/plugged')
 " Make sure you use single quotes
 	" Tpops basic sensible vim setting
 	Plug 'tpope/vim-sensible'
