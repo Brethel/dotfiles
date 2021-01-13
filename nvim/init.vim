@@ -391,8 +391,9 @@ function! TrimWhitespace()
     %s/\\\@<!\s\+$//e
     call winrestview(l:save)
 endfunction
-:command! TrimWhitespace call TrimWhitespace()
-autocmd BufWritePre * TrimWhitespace
+":command! TrimWhitespace call TrimWhitespace()
+autocmd BufWritePre * :call TrimWhitespace()
+
 
 " fast sum
 fu! SumFunc() range
