@@ -65,8 +65,9 @@ call plug#begin('~/.local/nvim/plugged')
 	Plug 'junegunn/rainbow_parentheses.vim'
 	Plug 'scrooloose/syntastic'
 	Plug 'jiangmiao/auto-pairs'
-	Plug 'itchyny/lightline.vim'
-    Plug 'hardcoreplayers/spaceline.vim'
+	"Plug 'itchyny/lightline.vim'
+    Plug 'glepnir/spaceline.vim'
+	Plug 'luochen1990/rainbow'                              " rainbow parenthesis
 
 	Plug 'ntpeters/vim-better-whitespace'
 
@@ -178,6 +179,9 @@ augroup csharp_commands
     autocmd FileType cs let g:strip_whitespace_confirm = 0
 augroup END
 
+" rainbow brackets
+let g:rainbow_active = 1
+
 " NERDtree
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
@@ -248,32 +252,36 @@ colorscheme gruvbox
 set linespace=2			" more space for messages
 set laststatus=2		" always show statusline
 set background=dark
+set emoji
+
 let g:gruvbox_contrast_dark = 'hard'
-let g:lightline = {
-    \ 'active': {
-    \   'left': [
-    \     ['mode', 'paste'],
-    \     ['gitbranch', 'readonly', 'filename', 'modified']
-    \   ],
-    \   'right': [
-    \     ['lineinfo'],
-    \     ['percent'],
-    \     ['fileformat', 'fileencoding', 'filetype', 'scrollbar']
-    \   ]
-    \ },
-    \ 'component_function': {
-    \   'gitbranch':    'FugitiveHead',
-    \ },
-    \ 'colorscheme': 'wombat',
-    \ }
-let g:spaceline_seperate_style= 'arrow'
-let g:spaceline_line_symbol = 0
+"let g:lightline = {
+"    \ 'active': {
+"    \   'left': [
+"    \     ['mode', 'paste'],
+"    \     ['gitbranch', 'readonly', 'filename', 'modified']
+"    \   ],
+"    \   'right': [
+"    \     ['lineinfo'],
+"    \     ['percent'],
+"    \     ['fileformat', 'fileencoding', 'filetype', 'scrollbar']
+"    \   ]
+"    \ },
+"    \ 'component_function': {
+"    \   'gitbranch':    'FugitiveHead',
+"    \ },
+"    \ 'colorscheme': 'seoul256',
+"    \ }
+let g:spaceline_seperate_style= 'arrow-fade'
 let g:spaceline_colorscheme = 'space'
 
 set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set guioptions=egmrti
 set signcolumn=yes		" Git Gutter always shows
 set lazyredraw			" dont redraw screen during macro execution
+
+" Character to show before the lines that have been soft-wrapped
+set showbreak=↪
 
 set mouse=a
 syntax on
@@ -301,6 +309,7 @@ set title
 set titlestring=%t\ %m\ (%{expand('%:p:h')})
 set showtabline=2		"always show the tabline at the top
 set completeopt=longest,menuone,preview
+set pumheight=10		" Maximum number of items to show in popup menu
 
 set magic				"regular expressions
 set backspace=indent,eol,start
@@ -340,7 +349,8 @@ autocmd InsertEnter * norm zz
 " autoreload vimrc on write
 autocmd BufWritePost $MYVIMRC source %
 
-set grepprg=rg\ --vimgrep
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+set grepformat=%f:%l:%c:%m
 if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
@@ -408,13 +418,15 @@ vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 " Helper functions {{{
 "
 
+" fix python3 expected to be "python" on $PATH
+let g:python3_host_prog = '/usr/bin/python3'
+
 " Trim Whitespaces
 function! TrimWhitespace()
     let l:save = winsaveview()
     %s/\\\@<!\s\+$//e
     call winrestview(l:save)
 endfunction
-":command! TrimWhitespace call TrimWhitespace()
 autocmd BufWritePre * :call TrimWhitespace()
 
 
