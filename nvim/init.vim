@@ -419,7 +419,7 @@ vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 "
 
 " fix python3 expected to be "python" on $PATH
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Trim Whitespaces
 function! TrimWhitespace()
