@@ -1,5 +1,3 @@
-"                              █████   █████  ███
-"                             ░░███   ░░███  ░░░
 " ████████    ██████   ██████  ░███    ░███  ████  █████████████
 "░░███░░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███
 " ░███ ░███ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███
@@ -80,11 +78,21 @@ call plug#begin('~/.local/nvim/plugged')
 	Plug 'gruvbox-community/gruvbox'
 	" visual debugger
 	Plug 'puremourning/vimspector'
+
+	" show differences in version control
+	Plug 'mhinz/vim-signify'
+
 	" c# stuff
 	Plug 'OmniSharp/omnisharp-vim'
+	Plug 'nickspoons/vim-sharpenup'
 	Plug 'dense-analysis/ale'
 	Plug 'sheerun/vim-polyglot'
 	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
+	"database stuff
+	Plug 'tpope/vim-dadbod'
+	Plug 'kristijanhusak/vim-dadbod-ui'
+	Plug 'vim-scripts/dbext.vim'
 " Initialize plugin system
 call plug#end()
 
@@ -144,8 +152,8 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" completion for Omnisharp
-let g:coc_global_extensions=[ 'coc-omnisharp' ]
+" completion
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-tsserver','coc-json', 'coc-sql', 'coc-eslint', 'coc-html', 'coc-db' ]
 " Omnisharp
 let g:omnicomplete_fetch_full_documentation = 1
 let g:OmniSharp_autoselect_existing_sln = 1
@@ -153,6 +161,19 @@ let g:OmniSharp_popup_position = 'peek'
 let g:OmniSharp_highlighting = 3
 let g:OmniSharp_diagnostic_exclude_paths = [ 'Temp[/\\]', 'obj[/\\]', '\.nuget[/\\]' ]
 let g:OmniSharp_fzf_options = { 'down': '10' }
+" Use Roslyin and also better performance than HTTP
+let g:OmniSharp_server_stdio = 1
+let g:omnicomplete_fetch_full_documentation = 1
+" Timeout in seconds to wait for a response from the server
+let g:OmniSharp_timeout = 30
+" this will make it so any subsequent C# files that you open are using the same solution and you aren't prompted again (so you better choose the right solution the first time around :) )
+let g:OmniSharp_autoselect_existing_sln = 1
+
+let g:OmniSharp_popup_options = {
+\ 'highlight': 'Normal',
+\ 'padding': [1],
+\ 'border': [1]
+\}
 
 augroup csharp_commands
     autocmd!
@@ -203,6 +224,7 @@ if executable('fzf')
 	let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.5, 'yoffset': 0.1, 'border': 'rounded'}}
 endif
 
+" ripGrep:
 " --column: Show column number
 " --line-number: Show line number
 " --no-heading: Do not show file headings in results
@@ -278,7 +300,6 @@ let g:spaceline_colorscheme = 'space'
 set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set guioptions=egmrti
 set signcolumn=yes		" Git Gutter always shows
-set lazyredraw			" dont redraw screen during macro execution
 
 " Character to show before the lines that have been soft-wrapped
 set showbreak=↪
@@ -295,7 +316,6 @@ set noruler				"lighline already has it
 set nosol				"no start-of-line
 set showcmd
 set cmdheight=2			"more space for messages
-set showmatch
 set matchtime=2
 set nospell
 
@@ -308,10 +328,12 @@ set undolevels=1000 undoreload=10000
 set title
 set titlestring=%t\ %m\ (%{expand('%:p:h')})
 set showtabline=2		"always show the tabline at the top
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone,preview,noselect,noinsert
 set pumheight=10		" Maximum number of items to show in popup menu
 
 set magic				"regular expressions
+set showmatch
+
 set backspace=indent,eol,start
 set conceallevel=0		"don't hide my shit
 set hidden
@@ -324,13 +346,15 @@ set incsearch
 set tbs					"binary search on tagfile
 set updatetime=500
 set ttimeoutlen=100
+
 set fileformat=unix
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
+set encoding=utf-8 fileencoding=utf-8 fileencodings=utf-8
+set termencoding=utf-8
+
 set history=150         " keep 150 lines of command line history
 set scrolljump=-15		" accelerated scrolling
 set ttyfast
+set lazyredraw			" dont redraw screen during macro execution
 
 set smarttab
 set noexpandtab			" we dont like spaces for indentation
@@ -381,7 +405,7 @@ nnoremap <M-k>	:resize +2<CR>
 nnoremap <M-h>	:vertical resize -2<CR>
 nnoremap <M-l>	:vertical resize +2<CR>
 
-" - why not ?
+" why not ?
 nnoremap ; :
 
 map Q gq
