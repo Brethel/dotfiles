@@ -61,6 +61,7 @@ call plug#begin('~/.local/nvim/plugged')
 
 	Plug 'mbbill/undotree'
 	Plug 'junegunn/rainbow_parentheses.vim'
+	"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }	" HEX colors preview
 	Plug 'scrooloose/syntastic'
 	Plug 'jiangmiao/auto-pairs'
 	"Plug 'itchyny/lightline.vim'
@@ -106,6 +107,10 @@ endif
 "
 " Configs... {{{
 "
+
+" hexokinase colors
+"let g:Hexokinase_highlighters = ['virtual']
+"let g:Hexokinase_refreshEvents = [ 'TextChanged','InsertLeave']
 
 " vimspector
 let g:vimspector_enable_mappings='HUMAN'
@@ -153,7 +158,7 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " completion
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-tsserver','coc-json', 'coc-sql', 'coc-eslint', 'coc-html', 'coc-db' ]
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-tsserver','coc-json', 'coc-sql', 'coc-eslint','coc-prettier' ,'coc-html', 'coc-db' ]
 " Omnisharp
 let g:omnicomplete_fetch_full_documentation = 1
 let g:OmniSharp_autoselect_existing_sln = 1
@@ -330,6 +335,7 @@ set titlestring=%t\ %m\ (%{expand('%:p:h')})
 set showtabline=2		"always show the tabline at the top
 set completeopt=longest,menuone,preview,noselect,noinsert
 set pumheight=10		" Maximum number of items to show in popup menu
+set formatoptions-=cro  " Stop newline continution of comments
 
 set magic				"regular expressions
 set showmatch
