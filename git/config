@@ -1,0 +1,21 @@
+[user]
+	email = brethel@gmail.com
+    name = Brethel
+[alias]
+    co = checkout
+    cob = checkout -b
+    del = branch -D
+    list = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
+    # list branches sorted by last modified
+    lb = !git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'
+    undo = reset HEAD~1 --mixed
+    res = !git reset --hard
+    unstage = reset HEAD --
+    done = !git push origin HEAD
+    lg = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+[credential]
+	helper =
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
