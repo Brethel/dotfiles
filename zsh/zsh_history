@@ -1,0 +1,85 @@
+: 1676548591:0;
+: 1676510741:0;cat ~/.config/zsh/zsh_history
+: 1676510769:0;vim ~/.config/zsh/history.zsh
+: 1676510879:0;. ~/.zshrc
+: 1676510967:0;sudo ethtool
+: 1676510989:0;sudo ethtool enp2s0
+: 1676511046:0;sudo networkctl list
+: 1676511070:0;vim /etc/network/interfaces
+: 1676511330:0;ip addt
+: 1676511332:0;ip addr
+: 1676511400:0;sudo su
+: 1676511534:0;ll .config
+: 1676511541:0;ll .config/nvim
+: 1676511603:0;git clone --depth 1 https://github.com/wbthomason/packer.nvim\\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+: 1676511630:0;cd .config/nvim/plugin
+: 1676511657:0;vim
+: 1676511910:0;cat ~/.config/krunnerrc
+: 1676511967:0;ssh brethel@192.168.0.200
+: 1676511994:0;cd Videos
+: 1676512003:0;cat >encodeX265.sh
+: 1676512319:0;glances
+: 1676512463:0;neofetch
+: 1676512479:0;cd ../.local/share/fonts
+: 1676512500:0;scp -r brethel@192.168.0.200:/home/brethel/.local/share/fonts/* .
+: 1676512542:0;scp -r "brethel@192.168.0.200:/home/brethel/.local/share/fonts/*" .
+: 1676512803:0;fc-cache --help
+: 1676512807:0;fc-cache -f
+: 1676512812:0;cd
+: 1676512820:0;history
+: 1676512841:0;vim .config/zsh/history.zsh
+: 1676513043:0;ll /home/brethel/Pictures/Desktop\ 1_001.png
+: 1676513061:0;sxiv /home/brethel/Pictures/Desktop\ 1_001.png
+: 1676548586:0;inxi -F
+: 1676552280:0;cd Downloads
+: 1676552284:0;cat >>1.url
+: 1676552294:0;rm HuionTablet_v15.0.0.121.202301131103.x86_64.deb
+: 1676552295:0;ll
+: 1676552349:0;vim Downloads/1.url
+: 1676552365:0;exit
+: 1676561056:0;alias
+: 1676561066:0;fzf
+: 1676562870:0;sudo su
+: 1676563309:0;glances
+: 1676563318:0;htop
+: 1676563349:0;glances
+: 1676563665:0;sudo su
+: 1676563858:0;cat Downloads/1.url
+: 1676563902:0;mkdir /extra/torrents
+: 1676563907:0;sudo mkdir /extra/torrents
+: 1676563915:0;chown -R brethel /extra/torrents
+: 1676563926:0;sudo chown -R brethel /extra/torrents
+: 1676564223:0;cd Downloads
+: 1676564223:0;ll
+: 1676564228:0;unrar x TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook.part1.rar
+: 1676564241:0;rm TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook.part*
+: 1676564244:0;cd TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook
+: 1676564245:0;ll
+: 1676564261:0;for i in *.zip; do unzip $i && rm -f $i; done
+: 1676564280:0;ll
+: 1676564286:0;unrar x bbx97p0.rar
+: 1676564351:0;]
+: 1676564353:0;cd ..
+: 1676564357:0;rm -rf TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook
+: 1676564394:0;la
+: 1676564674:0;ll
+: 1676564679:0;unrar x TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook.part1.rar
+: 1676564690:0;rm TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook.part*
+: 1676564692:0;cd TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook
+: 1676564692:0;l
+: 1676564700:0;unzip bbx97p0a.zip
+: 1676564707:0;unzip --help
+: 1676564720:0;ll
+: 1676564728:0;unzip -o bbx97p0b.zip
+: 1676564732:0;unzip -o bbx97p0c.zip
+: 1676564900:0;cd ..
+: 1676564903:0;rm -rf TidalWave.Productions.-.Victoria.s.Secret.Service.Compendium.2021.Hybrid.Comic.eBook-BitBook
+: 1676564903:0;ll
+: 1676569988:0;cd workspace
+: 1676569988:0;l
+: 1676569989:0;ll
+: 1676570000:0;cd
+: 1676570012:0;vim ~/.config/starship.toml
+: 1676570106:0;vim .zshrc
+: 1676570138:0;. ~/.zshrc
