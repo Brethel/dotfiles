@@ -1,9 +1,0 @@
-{
-  "coc-eslint|global": {
-    "eslintLibraries": {
-      "libs": {
-        "/Users/brethel/workspace/proficiencia-frontend/node_modules/eslint/lib/api.js": true
-      }
-    }
-  }
-}
