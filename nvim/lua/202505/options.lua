@@ -23,23 +23,29 @@ _OPT.diffopt = {
 	"linematch:200",
 	"indent-heuristic",
 }
+_OPT.autoread = true
+_OPT.wildmenu = true
+_OPT.encoding = "utf-8"
+_OPT.autochdir = true
 
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
+
+_OPT.background = "dark"
+_OPT.cmdheight = 1 -- 1 line for cmd
+_OPT.colorcolumn = "80,120" -- Line lenght marker at 80 and 120 columns
+_OPT.ignorecase = true -- Ignore case letters when search
+_OPT.laststatus = 3 -- Set global statusline
+_OPT.linebreak = true -- Wrap on word boundary
 _OPT.number = true -- Show line number
 _OPT.relativenumber = true -- relative line number
 _OPT.showmatch = true -- Highlight matching parenthesis
-_OPT.foldmethod = "marker" -- Enable folding (default 'foldmarker')
-_OPT.colorcolumn = "80,120" -- Line lenght marker at 80 and 120 columns
-_OPT.splitright = true -- Vertical split to the right
-_OPT.splitbelow = true -- Horizontal split to the bottom
-_OPT.ignorecase = true -- Ignore case letters when search
 _OPT.smartcase = true -- Ignore lowercase for the whole pattern
-_OPT.linebreak = true -- Wrap on word boundary
+_OPT.splitbelow = true -- Horizontal split to the bottom
+_OPT.splitright = true -- Vertical split to the right
 _OPT.termguicolors = true -- Enable 24-bit RGB colors
-_OPT.laststatus = 3 -- Set global statusline
-_OPT.cmdheight = 1 -- 1 line for cmd
+_OPT.winborder = "rounded"
 -----------------------------------------------------------
 -- Tabs, indent
 -----------------------------------------------------------
@@ -62,20 +68,24 @@ _OPT.backup = false
 _OPT.conceallevel = 2
 _OPT.cursorline = true
 _OPT.expandtab = true
--- _OPT.foldmethod = "expr"
--- _OPT.foldexpr = "nvim_treesitter#foldexpr()"
+_OPT.foldmethod = "expr"
+_OPT.foldexpr = "nvim_treesitter#foldexpr()"
+_OPT.foldcolumn = "1"
+_OPT.foldlevel = 99
+_OPT.foldlevelstart = 99
+_OPT.foldnestmax = 4
+_OPT.formatoptions = "jcroqlnt" -- tcqj
+
 _OPT.hidden = true
 _OPT.ignorecase = true
 _OPT.inccommand = "split"
 _OPT.joinspaces = false
 _OPT.list = true
-_OPT.number = true
-_OPT.relativenumber = true
 _OPT.scrolloff = 999 -- "center" the cursor vertically
 _OPT.shortmess:append("c")
 _OPT.showmode = true
 _OPT.sidescrolloff = 8
-_OPT.signcolumn = "yes:2"
+_OPT.signcolumn = "yes:3"
 _OPT.smartcase = true
 _OPT.smartindent = true
 _OPT.splitbelow = true
@@ -86,10 +96,7 @@ _OPT.wrap = true
 _OPT.pumheight = 12 -- Limit completion menu height
 _OPT.updatetime = 150 -- Faster completion feedback
 
--- Basic editor setup with Gruvbox-friendly settings
-_OPT.background = "dark"
-_OPT.termguicolors = true
-_OPT.list = false
+_OPT.list = false -- disable listchars below
 _OPT.listchars = {
 	tab = "▸ ",
 	trail = "·",
@@ -117,7 +124,31 @@ if _GG.neovide then
 	_GG.neovide_normal_opacity = 0.9
 	_GG.neovide_scale_factor = 1.1
 	_GG.neovide_cursor_animation_length = 0
+	_GG.neovide_refresh_rate = 120
+	_GG.neovide_input_macos_option_key_is_meta = "only_right"
 end
+
+_OPT.sessionoptions = {
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"help",
+	"globals",
+	"skiprtp",
+	"folds",
+	"localoptions",
+}
+
+_OPT.diffopt = {
+	"internal",
+	"filler",
+	"closeoff",
+	"context:12",
+	"algorithm:histogram",
+	"linematch:200",
+	"indent-heuristic",
+}
 
 -- Disable builtin plugins
 local disabled_built_ins = {
@@ -179,7 +210,7 @@ vim.diagnostic.config({
 	underline = true, -- Specify Underline diagnostics
 	update_in_insert = false, -- Keep diagnostics active in insert mode
 	virtual_text = {
-		spacing = 40,
+		spacing = 20,
 		source = "if_many",
 		prefix = "●",
 		format = function(diagnostic)

@@ -12,4 +12,8 @@ return {
 			})
 		end,
 	},
+	{
+		"echasnovski/mini.misc",
+		version = false,
+	},
 }

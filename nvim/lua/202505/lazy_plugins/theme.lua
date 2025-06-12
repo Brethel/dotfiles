@@ -86,6 +86,7 @@ return {
 			require("nvim-highlight-colors").setup({})
 		end,
 	},
+
 	{
 		"echasnovski/mini.indentscope",
 		version = false,
