@@ -3,6 +3,7 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
 			"mason-org/mason.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
@@ -20,6 +21,7 @@ return {
 				},
 				-- auto-install configured servers (with lspconfig)
 				automatic_installation = true, -- not the same as ensure_installed
+				require("mason-tool-installer").setup({ ensure_installed = ensure_installed }),
 			})
 		end,
 	}, -- mason-lspconfig
@@ -30,87 +32,9 @@ return {
 		dependencies = {
 			"mason-org/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
+			{ "j-hui/fidget.nvim", opts = {} },
 		},
 		event = { "BufReadPre", "BufNewFile" },
-		-- example using `opts` for defining servers
-		-- opts = {
-		-- 	servers = {
-		-- 		lua_ls = {
-		-- 			--- {{{ Lua
-		-- 			settings = {
-		-- 				Lua = {
-		-- 					runtime = {
-		-- 						-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-		-- 						version = "LuaJIT",
-		-- 						path = {
-		-- 							"lua/?.lua",
-		-- 							"lua/?/init.lua",
-		-- 						},
-		-- 					},
-		-- 					codeLens = {
-		-- 						enable = true,
-		-- 					},
-		-- 					diagnostics = {
-		-- 						-- Get the language server to recognize the `vim` global
-		-- 						globals = { "vim" },
-		-- 					},
-		-- 					completion = {
-		-- 						callSnippet = "Replace",
-		-- 					},
-		-- 					workspace = {
-		-- 						-- Make the server aware of Neovim runtime files
-		-- 						library = {
-		-- 							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-		-- 							[vim.fn.stdpath("config") .. "/lua"] = true,
-		-- 						},
-		-- 						checkThirdParty = false,
-		-- 					},
-		-- 					-- Do not send telemetry data containing a randomized but unique identifier
-		-- 					telemetry = {
-		-- 						enable = false,
-		-- 					},
-		-- 					hint = {
-		-- 						enable = true,
-		-- 						setType = false,
-		-- 						paramType = true,
-		-- 						paramName = "Disable",
-		-- 						semicolon = "Disable",
-		-- 						arrayIndex = "Disable",
-		-- 					},
-		-- 				},
-		-- 			},
-		-- 			--- }}}
-		-- 		},
-		-- 		gopls = {
-		-- 			--- {{{ golang
-		-- 			settings = {
-		-- 				gopls = {
-		-- 					analyses = {
-		-- 						nilness = true,
-		-- 						unusedparams = true,
-		-- 						unusedwrite = true,
-		-- 						useany = true,
-		-- 					},
-		-- 					experimentalPostfixCompletions = true,
-		-- 					gofumpt = true,
-		-- 					completeUnimported = true, -- This enables auto-import
-		-- 					staticcheck = true,
-		-- 					usePlaceholders = true,
-		-- 					hints = {
-		-- 						assignVariableTypes = true,
-		-- 						compositeLiteralFields = true,
-		-- 						compositeLiteralTypes = true,
-		-- 						constantValues = true,
-		-- 						functionTypeParameters = true,
-		-- 						parameterNames = true,
-		-- 						rangeVariableTypes = true,
-		-- 					},
-		-- 				},
-		-- 			},
-		-- 			--- }}}
-		-- 		},
-		-- 	},
-		-- }, -- opts
 		config = function(_, opts)
 			-- local lspconfig = require("lspconfig")
 			-- for server, config in pairs(opts.servers) do
@@ -166,6 +90,24 @@ return {
 						"<cmd>lua vim.lsp.buf.hover()<CR>",
 						{ buffer = event.buf, desc = "Hover Documentation" }
 					)
+
+					-- LSP
+					-- kmap('n', '<leader>gg', '<cmd>lua vim.lsp.buf.hover()<CR>')
+					-- kmap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+					-- kmap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+					-- kmap('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+					-- kmap('n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+					-- kmap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+					-- kmap('n', '<leader>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+					-- kmap('n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
+					-- kmap('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
+					-- kmap('v', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
+					-- kmap('n', '<leader>ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+					-- kmap('n', '<leader>gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
+					-- kmap('n', '<leader>gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+					-- kmap('n', '<leader>gn', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+					-- kmap('n', '<leader>tr', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+					-- kmap('i', '<C-Space>', '<cmd>lua vim.lsp.buf.completion()<CR>')
 				end,
 			})
 

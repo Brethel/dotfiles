@@ -1,4 +1,5 @@
 return {
+	{ "saghen/blink.compat", version = "*", lazy = true, opts = {} },
 	{
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
@@ -33,7 +34,7 @@ return {
 			-- See :h blink-cmp-config-keymap for defining your own keymap
 			keymap = {
 				preset = "none",
-				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-Tab>"] = { "show", "show_documentation", "hide_documentation" },
 				["<C-e>"] = { "hide", "fallback" },
 				["<S-CR>"] = { "accept", "fallback" },
 
@@ -89,11 +90,10 @@ return {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				cmdline = {}, -- Desabilitar fontes para o modo de linha de comando
 				providers = {
 					lsp = {
-						min_keyword_length = 2, -- Número de caracteres para acionar o provedor
-						score_offset = 0, -- Aumentar/penalizar a pontuação dos itens
+						min_keyword_length = 2, -- Number of Chars to activate the provider
+						score_offset = 0,
 					},
 					path = {
 						min_keyword_length = 0,

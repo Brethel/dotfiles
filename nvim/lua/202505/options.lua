@@ -10,6 +10,8 @@ _GG.maplocalleader = " "
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
+_GG.have_nerd_font = true
+
 _OPT.mouse = "a" -- Enable mouse support
 _OPT.clipboard = "unnamedplus" -- Copy/paste to system clipboard
 _OPT.swapfile = false -- Don't use swapfile
@@ -45,6 +47,7 @@ _OPT.smartcase = true -- Ignore lowercase for the whole pattern
 _OPT.splitbelow = true -- Horizontal split to the bottom
 _OPT.splitright = true -- Vertical split to the right
 _OPT.termguicolors = true -- Enable 24-bit RGB colors
+_OPT.showtabline = 0 -- always show tabs
 _OPT.winborder = "rounded"
 -----------------------------------------------------------
 -- Tabs, indent
@@ -74,8 +77,10 @@ _OPT.foldcolumn = "1"
 _OPT.foldlevel = 99
 _OPT.foldlevelstart = 99
 _OPT.foldnestmax = 4
-_OPT.formatoptions = "jcroqlnt" -- tcqj
+_OPT.formatoptions = "jcroqlnt" -- tcqj -- check help fo-table
 
+_OPT.grepformat = "%f:%l:%c:%m"
+_OPT.grepprg = "rg --vimgrep"
 _OPT.hidden = true
 _OPT.ignorecase = true
 _OPT.inccommand = "split"
@@ -221,4 +226,5 @@ vim.diagnostic.config({
 	},
 	-- virtual_lines = true,
 	severity_sort = true,
+	float = { border = "rounded" }, -- add border to diagnostic popupsgg
 })
