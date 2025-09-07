@@ -108,9 +108,9 @@ return {
 						enable = true,
 						keymaps = {
 							init_selection = "<CR>", -- set to `false` to disable one of the mappings
-							node_incremental = false,
-							scope_incremental = "<CR>",
-							node_decremental = false,
+							node_incremental = "<CR>",
+							scope_incremental = false,
+							node_decremental = "<S-CR>",
 						},
 					},
 				})

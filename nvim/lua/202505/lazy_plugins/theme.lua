@@ -50,6 +50,25 @@ return {
 		lazy = false, -- make sure we load this during startup
 		priority = 999,
 		config = function()
+			local mode_map = {
+				["NORMAL"] = "NO",
+				["O-PENDING"] = "N?",
+				["INSERT"] = "IN",
+				["VISUAL"] = "V ",
+				["V-BLOCK"] = "VB",
+				["V-LINE"] = "VL",
+				["V-REPLACE"] = "VR",
+				["REPLACE"] = "R ",
+				["COMMAND"] = "! ",
+				["SHELL"] = "SH",
+				["TERMINAL"] = "T ",
+				["EX"] = "X ",
+				["S-BLOCK"] = "SB",
+				["S-LINE"] = "SL",
+				["SELECT"] = "S ",
+				["CONFIRM"] = "Y?",
+				["MORE"] = "M ",
+			}
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
@@ -58,23 +77,65 @@ return {
 					always_show_tabline = true,
 					globalstatus = false,
 					refresh = {
-						statusline = 1000,
-						tabline = 1000,
-						winbar = 1000,
+						statusline = 500,
+						tabline = 500,
+						winbar = 500,
 					},
-					tabline = {
-						lualine_a = {
-							{
-								"buffers",
-								mode = 4,
+					section_separators = { left = "", right = "" },
+					component_separators = { left = "", right = "" },
+				},
+				sections = {
+					lualine_a = {
+						{
+							"mode",
+							fmt = function(s)
+								return mode_map[s] or s
+							end,
+						},
+					},
+					lualine_b = {
+						{ "branch" },
+						{ "filename", file_status = true, path = 1 },
+					},
+					lualine_c = {
+						{
+							"diagnostics",
+							sources = { "nvim_diagnostic" },
+							symbols = { error = " ", warn = " ", info = " " },
+							diagnostics_color = {
+								color_error = { fg = "#ff0000" },
+								color_warn = { fg = "#ffff00" },
+								color_info = { fg = "#00ffff" },
 							},
 						},
-						lualine_c = {},
-						lualine_b = { "lsp_progress" },
-						lualine_x = {},
-						lualine_y = { "grapple" },
-						lualine_z = { "tabs" },
+						{
+							"diff",
+							symbols = { added = " ", modified = " ", removed = " " },
+							diff_color = {
+								added = { fg = "#00ff00" },
+								modified = { fg = "#ffa500" },
+								removed = { fg = "#cc0000" },
+							},
+						},
 					},
+					-- leave the defaults X,Y,Z...
+					--		lualine_x = {},
+					--		lualine_y = {},
+					--		lualine_z = {},
+				},
+				tabline = {
+					lualine_a = {
+						{
+							"buffers",
+							mode = 4,
+						},
+					},
+					lualine_b = { "lsp_progress" },
+					lualine_c = {},
+					--
+					lualine_x = {},
+					lualine_y = { "grapple" },
+					lualine_z = { "tabs" },
 				},
 			})
 		end,
@@ -93,7 +154,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			-- Which character to use for drawing scope indicator
-			symbol = "┃",
+			symbol = "", -- "┃",
 			draw = {
 				animation = function()
 					return 0

@@ -4,7 +4,9 @@ return {
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
 		dependencies = {
+			"onsails/lspkind.nvim", -- pictograms
 			"rafamadriz/friendly-snippets",
+			-- { "supermaven-inc/supermaven-nvim", opts = { disable_inline_completion = true, -- disables inline completion for use with cmp disable_keymaps = true, -- disables built in keymaps for more manual control }, }, { "huijiro/blink-cmp-supermaven", },
 			{ "L3MON4D3/LuaSnip", version = "v2.*" },
 			"echasnovski/mini.snippets",
 		},
@@ -16,7 +18,6 @@ return {
 		-- build = 'cargo build --release',
 		-- If you use nix, you can build from source using latest nightly rust with:
 		-- build = 'nix run .#build-plugin',
-
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
@@ -33,10 +34,10 @@ return {
 			--
 			-- See :h blink-cmp-config-keymap for defining your own keymap
 			keymap = {
-				preset = "none",
+				preset = "super-tab", -- "none",
 				["<C-Tab>"] = { "show", "show_documentation", "hide_documentation" },
 				["<C-e>"] = { "hide", "fallback" },
-				["<S-CR>"] = { "accept", "fallback" },
+				["<CR>"] = { "accept", "fallback" },
 
 				["<Tab>"] = {
 					function(cmp)
@@ -59,8 +60,8 @@ return {
 				["<C-n>"] = { "select_next", "fallback" },
 				["<C-up>"] = { "scroll_documentation_up", "fallback" },
 				["<C-down>"] = { "scroll_documentation_down", "fallback" },
-			},
-			snippets = { preset = "luasnip" },
+			}, -- keymap
+
 			cmdline = {
 				keymap = { preset = "enter" },
 			},
@@ -72,25 +73,78 @@ return {
 
 			-- (Default) Only show the documentation popup when manually triggered
 			completion = {
+				menu = {
+					auto_show = true,
+					-- draw = {
+					-- 	treesitter = { "lsp" },
+					-- 	columns = { { "kind_icon", "label", "label_description", gap = 1 }, { "kind" } },
+					-- },
+					draw = {
+						treesitter = { "lsp" },
+						columns = {
+							{ "kind_icon", "label", "label_description", gap = 1 },
+							{ "kind" },
+						},
+						components = {
+							kind_icon = {
+								text = function(item)
+									local kind = require("lspkind").symbol_map[item.kind] or ""
+									return kind .. " "
+								end,
+								highlight = "CmpItemKind",
+							},
+							label = {
+								text = function(item)
+									return item.label
+								end,
+								highlight = "CmpItemAbbr",
+							},
+							kind = {
+								text = function(item)
+									return item.kind
+								end,
+								highlight = "CmpItemKind",
+							},
+						},
+					}, -- draw
+				}, -- menu
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 250,
 					treesitter_highlighting = true,
-					window = { border = "rounded" },
+					window = {
+						border = "rounded",
+						winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc",
+					},
 				},
 				accept = { auto_brackets = { enabled = true } },
-			},
-			list = {
-				selection = function(ctx)
-					return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-				end,
-			},
+				list = {
+					selection = {
 
+						preselect = function(ctx)
+							return not require("blink.cmp").snippet_active({ direction = 1 })
+						end,
+						auto_insert = function(ctx)
+							return vim.bo.filetype ~= "markdown"
+						end,
+					},
+				},
+			}, -- completion
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer" }, -- supermaven
 				providers = {
+					-- supermaven = {
+					-- 	name = "supermaven",
+					-- 	module = "blink-cmp-supermaven",
+					-- 	async = true,
+					-- },
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
 					lsp = {
 						min_keyword_length = 2, -- Number of Chars to activate the provider
 						score_offset = 0,
@@ -108,40 +162,14 @@ return {
 				},
 			},
 			signature = { enabled = true },
+			snippets = { preset = "luasnip" },
 			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+			-- You may use a lua implementa fgon instead by using `implementation = "lua"` or fallback to the lua implementation,
 			-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
 			--
-			-- See the fuzzy documentation for more information
+			-- See the fuzzy documentation for fg more information
 			fuzzy = { implementation = "prefer_rust_with_warning" },
-			draw = {
-				columns = {
-					{ "kind_icon", "label", gap = 1 },
-					{ "kind" },
-				},
-				components = {
-					kind_icon = {
-						text = function(item)
-							local kind = require("lspkind").symbol_map[item.kind] or ""
-							return kind .. " "
-						end,
-						highlight = "CmpItemKind",
-					},
-					label = {
-						text = function(item)
-							return item.label
-						end,
-						highlight = "CmpItemAbbr",
-					},
-					kind = {
-						text = function(item)
-							return item.kind
-						end,
-						highlight = "CmpItemKind",
-					},
-				},
-			}, -- draw
-		},
+		}, -- opts
 		opts_extend = { "sources.default" },
 	}, -- blink-cmp
 }
