@@ -13,6 +13,7 @@ alias more=most
 alias g=git
 alias grep='rg --color=always'
 alias top=glances
+alias find=fd
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # Mac OSX
