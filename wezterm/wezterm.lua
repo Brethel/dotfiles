@@ -1,5 +1,5 @@
 local wezterm = require("wezterm")
-local mux = wezterm.mux
+-- local mux = wezterm.mux
 local act = wezterm.action
 local config = {}
 local keys = {}
@@ -10,8 +10,8 @@ local haswork, work = pcall(require, "work")
 --- This helps with conflicting keys in pwsh
 keys = {
 	{ key = "Enter", mods = "ALT", action = act.ToggleFullScreen },
-	{ key = "\\", mods = "ALT|CTRL", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "\\", mods = "CTRL", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	--	{ key = "\\", mods = "ALT|CTRL", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	--	{ key = "\\", mods = "CTRL", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "0", mods = "SHIFT|CTRL", action = act.ResetFontSize },
 	{ key = "+", mods = "CTRL", action = act.IncreaseFontSize },
 	{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
@@ -118,8 +118,16 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 config.hide_tab_bar_if_only_one_tab = true
 -- config.color_scheme = 'Gruvbox Material'
 config.color_scheme = "Gruvbox Dark (Gogh)"
---- config.color_scheme = 'AdventureTime'
+config.colors = {
+	split = "#cccccc",
+}
+
+config.font_size = 16
+config.line_height = 1.2
 config.font = wezterm.font_with_fallback({
+	{
+		family = "Comic Code Ligatures",
+	},
 	{
 		family = "ComicMono Nerd Font",
 	},
@@ -135,10 +143,8 @@ config.window_decorations = "RESIZE"
 
 config.inactive_pane_hsb = {
 	saturation = 0.65,
-	brightness = 0.5,
+	brightness = 0.2,
 }
-config.font_size = 18
-config.line_height = 1.2
 
 config.front_end = "OpenGL"
 config.prefer_egl = true
@@ -155,8 +161,8 @@ config.window_frame = {
 --if is_found(wezterm.target_triple, 'apple') then
 --
 -- end
---config.max_fps = 60
-config.max_fps = 120
+config.max_fps = 60
+--config.max_fps = 120
 
 config.launch_menu = launch_menu
 config.default_cursor_style = "BlinkingBar"

@@ -12,7 +12,6 @@ autoload -U compinit && compinit
 autoload -U colors && colors
 # autoload -U tetris # main attraction of zsh, obviously
 
-
 # cmp opts
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select # tab opens cmp menu
@@ -20,6 +19,12 @@ zstyle ':completion:*' special-dirs true # force . and .. to show in cmp menu
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33 # colorize cmp menu
 # zstyle ':completion:*' file-list true # more detailed list
 zstyle ':completion:*' squeeze-slashes false # explicit disable to allow /*/ expansion
+
+_dotnet_zsh_complete() {
+    local completions=("$(dotnet complete "$words")")
+    reply=( "${(ps:\n:)completions}" )
+}
+compdef _dotnet_zsh_complete dotnet
 
 # main opts
 setopt HIST_IGNORE_SPACE   # Ignore commands starting with space
@@ -69,6 +74,35 @@ fzf-history-search-with-preview() {
 }
 zle -N fzf-history-search-with-preview
 
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+export EDITOR="nvim"
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+export VI_MODE_SET_CURSOR=true
+
+function zle-keymap-select {
+    if [[ ${{KEYMAP}} == vicmd ]]; then
+        echo -ne '\e[2 q' # block
+    else
+        echo -ne '\e[6 q' # beam
+    fi
+}
+zle -N zle-line-init() {
+    zle -K viins
+    echo -ne '\e[6 q' # beam
+}
+zle -N zle-line-init
+
+# function vi-yank-clipboard {
+#     zle vi-yank
+#     echo "$CUTBUFFER" | pbcopy -i # MacOS tool, Linux xclip
+# }
+# zle -N vi-yank-clipboard
+# bindkey -M vicmd 'y' vi-yank-clipboard
+
 # open fff file manager with ctrl f
 # openfff() {
 #  fff <$TTY
@@ -77,13 +111,6 @@ zle -N fzf-history-search-with-preview
 #zle -N openfff
 #bindkey '^f' openfff
 
-# autosuggestions
-# requires zsh-autosuggestions
-# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# syntax highlighting
-# requires zsh-syntax-highlighting package
-#source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source "$XDG_CONFIG_HOME/zsh/plugins.zsh"
 
 export NVM_DIR="$HOME/.nvm"
@@ -100,9 +127,20 @@ chpwd() { eza -laF -snew --color=always | tail -10 } # auto LS after CD
 # PROMPT="${NEWLINE}%K{$COL0}%F{$COL1}$(date +%_I:%M%P) %K{$COL0}%F{$COL2} %n %K{$COL3} %~ %f%k ❯ " # pywal colors, from postrun script
 #echo -e "${NEWLINE}\033[48;2;46;52;64;38;2;216;222;233m $0 \033[0m\033[48;2;59;66;82;38;2;216;222;233m $(uptime -p | cut -c 4-) \033[0m\033[48;2;76;86;106;38;2;216;222;233m $(uname -r) \033[0m"
 
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 # better prompt
 #starship_precmd_user_func() {
 #  starship module directory
 #}
 #export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/transient.toml"
 eval "$(starship init zsh)"
+
+export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="$PATH:$HOME/.dotnet/tools/"
