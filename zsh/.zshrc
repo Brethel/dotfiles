@@ -1,7 +1,6 @@
 # main zsh settings. env in ~/.zprofile
 # read second
 
-
 # source global shell alias & variables files
 [ -f "$XDG_CONFIG_HOME/zsh/aliases.sh" ] && source "$XDG_CONFIG_HOME/zsh/aliases.sh"
 [ -f "$XDG_CONFIG_HOME/zsh/vars" ] && source "$XDG_CONFIG_HOME/zsh/vars"
@@ -20,9 +19,19 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33 # colorize cmp me
 # zstyle ':completion:*' file-list true # more detailed list
 zstyle ':completion:*' squeeze-slashes false # explicit disable to allow /*/ expansion
 
-_dotnet_zsh_complete() {
-    local completions=("$(dotnet complete "$words")")
-    reply=( "${(ps:\n:)completions}" )
+_dotnet_zsh_complete()
+{
+  local completions=("$(dotnet complete "$words")")
+
+  # If the completion list is empty, just continue with filename selection
+  if [ -z "$completions" ]
+  then
+    _arguments '*::arguments: _normal'
+    return
+  fi
+
+  # This is not a variable assignment, don't remove spaces!
+  _values = "${(ps:\n:)completions}"
 }
 compdef _dotnet_zsh_complete dotnet
 
@@ -47,10 +56,18 @@ SAVEHIST=1000000
 HISTFILE="$XDG_CACHE_HOME/zsh_history" # move histfile to cache
 #HISTCONTROL=ignoreboth # consecutive duplicates & commands starting with space are not saved
 
-
 # fzf setup
 source <(fzf --zsh) # allow for fzf history widget
 #alias pj="cd $(find $HOME/workspace/ -type d | fzf --height=30% --preview 'eza -T --level=2 {}')" # Project Finder
+
+function fzf-history-search-with-preview() {
+  local selected=$(fc -rl 1 | fzf --height=40% --preview 'echo {} | sed "s/ *[0-9]* *//" | bat --color=always --style=numbers --language=sh')
+  if [ -n "$selected" ]; then
+    LBUFFER="$selected"
+    zle redisplay
+  fi
+}
+zle -N fzf-history-search-with-preview
 
 # binds
 bindkey "^a" beginning-of-line
@@ -62,17 +79,8 @@ bindkey "^H" backward-kill-word
 # ctrl J & K for going up and down in prev commands
 bindkey "^J" history-search-forward
 bindkey "^K" history-search-backward
-
 #bindkey '^R' fzf-history-widget
 bindkey '^R' fzf-history-search-with-preview
-fzf-history-search-with-preview() {
-  local selected=$(fc -rl 1 | fzf --height=40% --preview 'echo {} | sed "s/ *[0-9]* *//" | bat --color=always --style=numbers --language=sh')
-  if [ -n "$selected" ]; then
-    LBUFFER="$selected"
-    zle redisplay
-  fi
-}
-zle -N fzf-history-search-with-preview
 
 # vi mode
 bindkey -v
@@ -83,25 +91,27 @@ zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 export VI_MODE_SET_CURSOR=true
 
-function zle-keymap-select {
+function zle-keymap-selection() {
     if [[ ${{KEYMAP}} == vicmd ]]; then
         echo -ne '\e[2 q' # block
     else
         echo -ne '\e[6 q' # beam
     fi
 }
-zle -N zle-line-init() {
+zle -N zle-keymap-selection
+
+function zle-line-init() {
     zle -K viins
     echo -ne '\e[6 q' # beam
 }
 zle -N zle-line-init
 
-# function vi-yank-clipboard {
-#     zle vi-yank
-#     echo "$CUTBUFFER" | pbcopy -i # MacOS tool, Linux xclip
-# }
-# zle -N vi-yank-clipboard
-# bindkey -M vicmd 'y' vi-yank-clipboard
+function vi-yank-clipboard {
+    zle vi-yank
+    echo "$CUTBUFFER" | pbcopy -i # MacOS tool, Linux xclip
+}
+zle -N vi-yank-clipboard
+bindkey -M vicmd 'y' vi-yank-clipboard
 
 # open fff file manager with ctrl f
 # openfff() {

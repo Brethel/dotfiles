@@ -123,10 +123,11 @@ config.colors = {
 }
 
 config.font_size = 16
-config.line_height = 1.2
+config.line_height = 1.0
 config.font = wezterm.font_with_fallback({
 	{
-		family = "Comic Code Ligatures",
+		-- family = "Comic Code Ligatures",
+		family = "ComicCodeLigatures Nerd Font",
 	},
 	{
 		family = "ComicMono Nerd Font",
@@ -135,6 +136,10 @@ config.font = wezterm.font_with_fallback({
 		family = "FiraMono Nerd Font Mono",
 	},
 })
+config.window_frame = {
+	font = wezterm.font({ family = "ComicMono Nerd Font" }),
+	font_size = 16,
+}
 config.pane_focus_follows_mouse = true
 config.window_background_opacity = 0.95
 config.text_background_opacity = 1.0
